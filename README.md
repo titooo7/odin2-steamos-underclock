@@ -1,6 +1,6 @@
 # Odin 2 CPU underclock for SteamOS
 
-> **For the AYN Odin 2 running SteamOS (the unofficial SteamOS ARM image) only.**
+> **For the AYN Odin 2 Pro running SteamOS (the unofficial SteamOS ARM image) only.**
 > Not for Android, and not for other handhelds: the clock values are the steps of
 > the Odin 2's Snapdragon 8 Gen 2 (SM8550). The installer checks the chip and
 > stops on anything else.
