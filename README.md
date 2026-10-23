@@ -9,8 +9,8 @@ Lower the Odin 2's maximum CPU clocks to get lower temperatures, a quieter fan
 and less power draw, usually with the same fps. Choose between three underclock
 profiles (or stock), system-wide or per game, without a password.
 
-Tested on an AYN Odin 2 with Unofficial SteamOS ARM 1.4 (kernel 7.2.8-sm8550-steamos).
-The Odin 2 Pro / Max / Mini / Portal use the same chip and should work too, but are untested.
+Tested on an AYN Odin 2 Pro with Unofficial SteamOS ARM 1.4 (kernel 7.2.8-sm8550-steamos).
+The Odin 2 / Max / Mini / Portal use the same chip and should work too, but are untested.
 
 ## Profiles
 
@@ -160,3 +160,7 @@ The `svc` column shows the service state and profile of each row (for example
 `active/medium`). `results-motogp20-2026-10-21.csv` is the raw log of the MotoGP 20
 test above, recorded before profiles existed (`active` = `small`; run 1
 22:08:03-22:13:19, run 2 22:23:23-22:28:31).
+
+## License
+
+MIT, see [LICENSE](LICENSE). Use at your own risk.
