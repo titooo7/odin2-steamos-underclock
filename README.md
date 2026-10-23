@@ -38,6 +38,24 @@ of a 5-minute race:
 | Power draw | 11.7 W | 13.1 W |
 | FPS | about the same | about the same |
 
+### Measured result (SP Football Life 2026, `small` vs `stock`)
+
+Same match settings, Balanced performance profile, on battery, last 2 minutes of
+a 3-minute match. This game runs through Box64 (x86 emulation), which keeps the
+CPU at its maximum the whole match, so here the underclock costs fps:
+
+| | `small` | `stock` |
+|---|---|---|
+| CPU temperature | 77.4 °C (peak 79) | 91.4 °C (peak 95) |
+| GPU temperature | 64.1 °C | 69.9 °C |
+| Fan | 3,299 rpm | 6,107 rpm |
+| Power draw | 9.2 W | 12.7 W |
+| FPS | about 25 | about 35 |
+
+(The stock run started hotter, 89 °C vs 76 °C at kick-off, which exaggerates the
+temperature and fan gaps a little.) For games like this, use a per-game profile
+(`game-profile.sh stock %command%`, see below).
+
 ## Install
 
 You need the sudo password of the `steamos` user. If you never set one, open
@@ -157,7 +175,9 @@ charging), same game, scene and performance profile in both runs:
    `bash /home/steamos/underclock/thermsummary.sh /home/steamos/underclock/mygame.csv <start> <end>`
 
 The `svc` column shows the service state and profile of each row (for example
-`active/medium`). `results-motogp20-2026-10-21.csv` is the raw log of the MotoGP 20
+`active/medium`). `results-spfl26-2026-10-23.csv` is the raw log of the SP Football Life 2026 test
+(small 06:46:29-06:48:29, stock 06:59:03-07:01:03).
+`results-motogp20-2026-10-21.csv` is the raw log of the MotoGP 20
 test above, recorded before profiles existed (`active` = `small`; run 1
 22:08:03-22:13:19, run 2 22:23:23-22:28:31).
 
