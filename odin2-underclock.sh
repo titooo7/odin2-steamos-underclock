@@ -8,6 +8,7 @@ POL=(0 3 7)
 
 caps_for() {
     case $1 in
+        light)  echo $LIGHT ;;
         small)  echo $SMALL ;;
         medium) echo $MEDIUM ;;
         large)  echo $LARGE ;;
@@ -17,7 +18,7 @@ caps_for() {
 
 last=
 while :; do
-    # The profile file is user-writable: only the four names are accepted.
+    # The profile file is user-writable: only the profile names are accepted.
     p=
     [ -f "$PROFILE_FILE" ] && read -r p < "$PROFILE_FILE"
     caps=($(caps_for "$p"))
