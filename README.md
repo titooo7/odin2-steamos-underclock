@@ -27,7 +27,8 @@ The `small` / `medium` / `large` values are the Small / Medium / Large presets o
 the Android app ClusterTuner. `light` caps only cores 3-6 and leaves the little
 cores and the fastest core (7) at stock, for games limited by one main thread.
 The GPU is not touched. Start with `small`; try `medium` or `large` if a game
-still runs well and you want it cooler and quieter.
+still runs well and you want it cooler and quieter. If a game loses fps with
+`small`, give it `light` (or `stock`) with a per-game profile.
 
 ### Measured result (MotoGP 20, `small` vs `stock`)
 
@@ -104,8 +105,8 @@ In Steam: the game > Properties > Launch options, enter:
 (`light`, `small`, `medium`, `large` or `stock`; if the game already has launch options,
 keep them after `%command%`). That game runs with that profile, and your normal
 profile comes back when you quit it. It works however the game is launched (Game
-Mode, Big Picture or Desktop Mode). Example: a game that struggles with the
-underclock gets `game-profile.sh stock %command%`.
+Mode, Big Picture or Desktop Mode). Example: a game that loses fps with the
+underclock gets `game-profile.sh light %command%` (or `stock`).
 
 To undo it for a game, clear its launch options.
 
