@@ -44,8 +44,8 @@ of a 5-minute race:
 
 ### Measured result (SP Football Life 2026, `small` / `light` vs `stock`)
 
-Same match settings, Balanced performance profile, on battery, last 2 minutes of
-a 3-minute match. This game runs through Box64 (x86 emulation), which keeps the
+Game resolution 1280x720 and in-game graphics on Medium, same teams in every run,
+Balanced performance profile, on battery, last 2 minutes of a 3-minute match. This game runs through Box64 (x86 emulation), which keeps the
 CPU at its maximum the whole match, so here the underclock costs fps:
 
 | | `small` | `light` | `stock` |
