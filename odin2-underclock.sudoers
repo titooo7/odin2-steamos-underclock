@@ -1,0 +1,3 @@
+# Lets the steamos user switch the underclock off/on without a password
+# (underclock-off.sh / underclock-on.sh). Only these two commands.
+steamos ALL=(root) NOPASSWD: /usr/bin/systemctl stop odin2-underclock.service, /usr/bin/systemctl start odin2-underclock.service

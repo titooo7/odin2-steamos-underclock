@@ -1,0 +1,13 @@
+[Unit]
+Description=Odin 2 CPU underclock (caps from /etc/odin2-underclock.conf)
+After=konkrd.service
+
+[Service]
+ExecStart=/bin/bash /etc/odin2-underclock.sh
+# On stop, give the clusters back their stock max.
+ExecStopPost=/bin/sh -c 'for p in /sys/devices/system/cpu/cpufreq/policy*; do cat $p/cpuinfo_max_freq > $p/scaling_max_freq; done'
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
