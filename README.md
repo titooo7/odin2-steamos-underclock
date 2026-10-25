@@ -7,7 +7,7 @@
 
 Lower the Odin 2's maximum CPU clocks to get lower temperatures, a quieter fan
 and less power draw, usually with the same fps. Choose between three underclock
-profiles, a `light` profile for CPU-heavy games, or stock, system-wide or per
+profiles, a milder `light` profile, or stock, system-wide or per
 game, without a password.
 
 Tested on an AYN Odin 2 Pro with Unofficial SteamOS ARM 1.4 (kernel 7.2.8-sm8550-steamos).
@@ -25,7 +25,8 @@ The Odin 2 / Max / Mini / Portal use the same chip and should work too, but are 
 
 The `small` / `medium` / `large` values are the Small / Medium / Large presets of
 the Android app ClusterTuner. `light` caps only cores 3-6 and leaves the little
-cores and the fastest core (7) at stock, for games limited by one main thread.
+cores and the fastest core (7) at stock: the mildest option, for a game that
+loses too much fps with `small`.
 The GPU is not touched. Start with `small`; try `medium` or `large` if a game
 still runs well and you want it cooler and quieter. If a game loses fps with
 `small`, give it `light` (or `stock`) with a per-game profile.
@@ -43,26 +44,26 @@ of a 5-minute race:
 | Power draw | 11.7 W | 13.1 W |
 | FPS | about the same | about the same |
 
-### Measured result (SP Football Life 2026, `small` / `light` vs `stock`)
+### Measured result (SP Football Life 2026, `stock` / `light` / `small`)
 
-Game resolution 1280x720 and in-game graphics on Medium, same teams in every run,
-Balanced performance profile, on battery, last 2 minutes of a 3-minute match. This game runs through Box64 (x86 emulation), which keeps the
-CPU at its maximum the whole match, so here the underclock costs fps:
+Measured 2026-10-25. Game resolution 1280x720 and in-game graphics on Medium,
+same teams in every run, Balanced performance profile, on battery, Decky Panel de
+Control TDP at 10 (see [Other TDP tools](#other-tdp-tools)), first minute after
+kick-off, profile switched with the game running. FPS read from the Steam overlay
+(level 1) by eye; the lowest values were about 5 fps under the typical range.
+This game runs through Box64 (x86 emulation).
 
-| | `small` | `light` | `stock` |
+| | `stock` | `light` | `small` |
 |---|---|---|---|
-| CPU temperature | 77.4 °C (peak 79) | 89.1 °C (peak 95) | 91.4 °C (peak 95) |
-| GPU temperature | 64.1 °C | 69.8 °C | 69.9 °C |
-| Fan | 3,299 rpm | 5,933 rpm | 6,107 rpm |
-| Power draw | 9.2 W | 11.9 W | 12.7 W |
-| FPS | about 25 | 33-39 | about 35 |
+| CPU temperature | 94.1 °C (peak 97) | 94.0 °C (peak 95) | 88.6 °C (peak 91) |
+| GPU temperature | 75.6 °C | 75.3 °C | 72.9 °C |
+| Fan | 6,411 rpm | 6,422 rpm | 5,742 rpm |
+| Power draw | 13.0 W | 13.0 W | 11.4 W |
+| FPS | 45-50 | 40-50 | 40-45, mostly near 45 |
 
-(The `small` run started cooler than the others, 76 °C vs 87-89 °C at kick-off,
-which exaggerates its temperature and fan gaps a little.) While playing, cores 0
-and 7 sat at 100% and the others didn't: the game is limited by its main thread on
-the fastest core. `light` keeps that core at stock, so it keeps the fps and still
-saves a little power; `small` slows it and loses about 10 fps. For games like
-this, use a per-game profile (`game-profile.sh light %command%`, see below).
+A second `stock` run gave the same numbers (93.9 °C, 6,413 rpm, 13.3 W, 43-50 fps).
+Here `small` saves about 1.6 W (−12%), 5.5 °C and 11% fan speed for a few fps,
+while `light` saves nothing measurable in this game.
 
 ## Install
 
@@ -159,6 +160,23 @@ The installer adds:
 The chosen profile is saved in `/home/steamos/underclock/profile`; the service
 accepts only the names `light`, `small`, `medium`, `large` and `stock` from it.
 
+## Other TDP tools
+
+Tools that set a TDP by capping CPU clocks interact with the underclock. Tested
+with the Decky plugin **Panel de Control** (v0.76), whose TDP slider caps every CPU
+cluster and the GPU at a share of their maximum:
+
+- **At TDP 10 (max)** its CPU caps are stock, so the underclock profile wins. It
+  corrects once or twice after a change, then stops ("unverifiable" status), and
+  the GPU stays at its full 680 MHz. Use this setting together with the underclock.
+- **At lower levels** its caps are lower than `small` from about level 8 down, so
+  they win, and it also caps the GPU (475 MHz at level 6).
+- It can switch on CPU boost, which raises core 7's stock maximum from 2.96 to
+  3.19 GHz (affects `stock` and `light`).
+
+Steam's own TDP slider and the image's performance profiles behave the same way:
+the stricter cap wins.
+
 ## Change the profile values
 
 Edit `odin2-underclock.conf` in this folder (values in kHz for cores 0-2, 3-6
@@ -183,9 +201,9 @@ charging), same game, scene and performance profile in both runs:
    `bash /home/steamos/underclock/thermsummary.sh /home/steamos/underclock/mygame.csv <start> <end>`
 
 The `svc` column shows the service state and profile of each row (for example
-`active/medium`). `results-spfl26-2026-10-23.csv` is the raw log of the SP Football Life 2026 test
-(small 06:46:29-06:48:29, stock 06:59:03-07:01:03);
-`results-spfl26-light-2026-10-23.csv` the `light` run (07:51:00-07:53:00).
+`active/medium`). `results-spfl26-2026-10-25.csv` is the raw log of the SP Football Life 2026 test
+(stock 14:08:33-14:09:33 and 14:23:01-14:24:01, light 14:15:41-14:16:41, small
+14:19:24-14:20:24; the rows in between are menus and cool-down).
 `results-motogp20-2026-10-21.csv` is the raw log of the MotoGP 20
 test above, recorded before profiles existed (`active` = `small`; run 1
 22:08:03-22:13:19, run 2 22:23:23-22:28:31).
