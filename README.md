@@ -47,11 +47,13 @@ of a 5-minute race:
 ### Measured result (SP Football Life 2026, `stock` / `light` / `small`)
 
 Measured 2026-10-25. Game resolution 1280x720 and in-game graphics on Medium,
-same teams in every run, Balanced performance profile, on battery, Decky Panel de
-Control TDP at 10 (see [Other TDP tools](#other-tdp-tools)), first minute after
-kick-off, profile switched with the game running. FPS read from the Steam overlay
+same teams in every run, Balanced performance profile, on battery, first minute
+after kick-off, profile switched with the game running. FPS read from the Steam overlay
 (level 1) by eye; the lowest values were about 5 fps under the typical range.
 This game runs through Box64 (x86 emulation).
+The test device also had the Decky plugin Panel de Control installed, with its TDP
+at 10 (its maximum), where it doesn't limit the CPU; only the underclock profile
+did (see [Other TDP tools](#other-tdp-tools)).
 
 | | `stock` | `light` | `small` |
 |---|---|---|---|
@@ -162,20 +164,27 @@ accepts only the names `light`, `small`, `medium`, `large` and `stock` from it.
 
 ## Other TDP tools
 
-Tools that set a TDP by capping CPU clocks interact with the underclock. Tested
-with the Decky plugin **Panel de Control** (v0.76), whose TDP slider caps every CPU
-cluster and the GPU at a share of their maximum:
+**Don't combine the underclock with another tool that limits CPU clocks.** Both
+write the same CPU limits, the stricter one wins, and you can't tell which of
+the two is actually doing the work. If you use this underclock, leave other
+TDP / CPU-frequency tools at their maximum (or switch their TDP control off),
+and choose the limit here with a profile instead.
 
-- **At TDP 10 (max)** its CPU caps are stock, so the underclock profile wins. It
-  corrects once or twice after a change, then stops ("unverifiable" status), and
-  the GPU stays at its full 680 MHz. Use this setting together with the underclock.
-- **At lower levels** its caps are lower than `small` from about level 8 down, so
-  they win, and it also caps the GPU (475 MHz at level 6).
+Tested with the Decky plugin **Panel de Control** (v0.76), whose TDP slider caps
+every CPU cluster and the GPU at a share of their maximum:
+
+- **At TDP 10 (its maximum)** its CPU limits are stock, so it doesn't limit
+  anything and the underclock profile is what applies. The GPU stays at its full
+  680 MHz. After a change it corrects once or twice, then stops ("unverifiable"
+  status). This is the setting to use if you keep the plugin installed.
+- **Below 10** its limits mix with the underclock: from about level 8 down they
+  are stricter than `small`, so the plugin decides the CPU clocks, and it also
+  caps the GPU (475 MHz at level 6), which the underclock never touches.
 - It can switch on CPU boost, which raises core 7's stock maximum from 2.96 to
   3.19 GHz (affects `stock` and `light`).
 
 Steam's own TDP slider and the image's performance profiles behave the same way:
-the stricter cap wins.
+the stricter limit wins, so leave Steam's TDP slider off (at its maximum) too.
 
 ## Change the profile values
 
